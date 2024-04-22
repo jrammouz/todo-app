@@ -1,9 +1,10 @@
-import {TodoCardComponent} from "./todo-card.component";
-import {of} from "rxjs";
-import {render, screen} from '@testing-library/angular';
-import {HttpClientModule} from "@angular/common/http";
-import {TodosService} from "../../services/todos.service";
-import {userEvent} from "@testing-library/user-event";
+import { TodoCardComponent } from "./todo-card.component";
+import { of } from "rxjs";
+import { render, screen } from '@testing-library/angular';
+import { HttpClientModule } from "@angular/common/http";
+import { TodosProps, TodosService } from "../../services/todos.service";
+import { userEvent } from "@testing-library/user-event";
+import { NgIf } from "@angular/common";
 
 describe("TodoCardComponent", () => {
   const todosService = jasmine.createSpyObj('TodosService', [
@@ -18,7 +19,7 @@ describe("TodoCardComponent", () => {
       "completed": false,
       "userId": 15
     })
-  )
+  );
 
   todosService.deleteTodo.and.returnValue(
     of({
@@ -29,16 +30,20 @@ describe("TodoCardComponent", () => {
       "isDeleted": true,
       "deletedOn": "2024-04-19T14:00:27.095Z"
     })
-  )
+  );
 
   it("should delete a checked todo card", async () => {
-    const emit = jasmine.createSpy();
+    const user = userEvent.setup()
+    const todo : TodosProps = {
+      id: '30',
+      title: 'Test',
+      content: 'Test'
+    }
     await render(TodoCardComponent, {
-      // componentProperties: {isSelected: 5},
-      componentProperties: {removeListItem : {  emit: emit,
-  } as any,
+      componentProperties: {
+        todo: todo
       },
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, NgIf],
       providers: [
         {
           provide: TodosService,
@@ -46,12 +51,12 @@ describe("TodoCardComponent", () => {
         },
       ],
     });
-    const user = userEvent.setup();
+    const checkbox = screen.queryByRole("checkbox");
 
-    const checkbox = screen.queryByRole("input");
-    // expect(emit).toHaveBeenCalledTimes(1);
-    // expect(screen.getByText('30')).toBeUndefined();
-    // expect(todosService.checkTodo).toHaveBeenCalledTimes(1);
-    // expect(todosService.deleteTodo).toHaveBeenCalledTimes(1);
-  })
+    if (checkbox) {
+      await user.click(checkbox); 
+    }
+
+    expect(todosService.checkTodo).toHaveBeenCalledTimes(1);
+  });
 });

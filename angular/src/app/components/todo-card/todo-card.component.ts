@@ -31,7 +31,7 @@ export class TodoCardComponent {
   onCheck(todo: TodosProps, event: any) {
     this.isSelected = true;
     event.stopPropagation();
-    this.todosService.checkTodo(todo).subscribe();
+    this.todoService.checkTodo(todo).subscribe();
     this.deleteTodo(todo.id, event);
   }
 }
