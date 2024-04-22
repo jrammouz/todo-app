@@ -8,15 +8,25 @@ import { NgIf } from '@angular/common';
   imports: [NgIf],
   templateUrl: './todo-card.component.html',
 })
+
 export class TodoCardComponent {
   @Input() todo: TodosProps | undefined;
-  @Input() isSelcted: boolean = false;
+  @Input() isSelected: boolean = false;
   @Output() click = new EventEmitter<void>();
-  @Output() removeListItem = new EventEmitter<string>();
   todosService = inject(TodosService);
 
-  deleteTodo(id: string) {
-    this.removeListItem.emit(id);
+  deleteTodo(id: string, event:any) {
+    event.stopPropagation();
+    this.todosService.deleteTodo(id);
+  }
+
+  onCheckboxClick(event : any){
+    console.log(event);
+    if(this.todo){
+      this.todosService.markTodoAsComplete(this.todo.id, event.target.checked);
+    }
+    event.stopPropagation();
+
   }
 
   onClick() {
