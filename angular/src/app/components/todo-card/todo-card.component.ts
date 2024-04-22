@@ -21,8 +21,11 @@ export class TodoCardComponent {
     this.removeListItem.emit(id);
   }
 
-  markAsDone(id: string){
-    this.markAsDoneEmit.emit(id)
+  markAsDone(id: string, $event: any){
+    // this.markAsDoneEmit.emit(id)
+    $event.stopPropagation();
+    this.todosService.markTodoAsDone(id).subscribe();
+    this.deleteTodo(id);
   }
 
   onClick() {

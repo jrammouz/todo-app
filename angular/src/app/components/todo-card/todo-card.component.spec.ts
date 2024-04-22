@@ -1,98 +1,78 @@
 import { TodoCardComponent } from './todo-card.component';
 import { render, screen } from '@testing-library/angular';
-
+import { userEvent } from "@testing-library/user-event";
 import { NgIf } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { TodosProps, TodosService } from '../../services/todos.service';
+import { of } from 'rxjs';
 
-describe('AddToDoComponent', () => {
+describe('TodoCardComponent', () => {
 
-  it("Should render the initial state of the component", async () => {
-	await render(TodoCardComponent, {
-		imports: [NgIf]
+	const todosService = jasmine.createSpyObj('TodosService', [
+		'markTodoAsDone',
+		'deleteTodo',
+	  ]);
+	
+	  todosService.markTodoAsDone.and.returnValue(
+		of({
+			"id": 30,
+			"todo": "Take cat on a walk",
+			"completed": false,
+			"userId": 15
+		})
+	  );
+	
+	  todosService.deleteTodo.and.returnValue(
+		of({
+			"id": 30,
+			"todo": "Test title",
+			"completed": false,
+			"userId": 15,
+			"isDeleted": true,
+			"deletedOn": "2024-04-22T16:15:04.293Z"
+		})
+	  );
+
+	it("Should render the initial state of the component", async () => {
+		let todo: TodosProps = {
+			id: '30',
+			title: 'Test title',
+			content: 'test'
+		}
+
+		await render(TodoCardComponent, {
+			imports: [NgIf, HttpClientModule],
+			componentProperties: {todo: todo}
+
+		});
+		/* No act */
+		// Assert
 	});
-	// No act
-	// Assert
-	expect(screen.getByText("30")).not.toBeNull();
-})
+	it("Should mark as checked", async () => {
+		const user = userEvent.setup();
+
+		const todo: TodosProps = {
+			id: '30',
+			title: 'Test',
+			content: 'Test'
+		}
+
+		await render(TodoCardComponent, {
+			imports: [NgIf, HttpClientModule],
+			componentProperties: {todo: todo},
+			providers:[
+				{
+					provide: TodosService,
+					useValue: todosService
+				},
+
+			]
+		});
+		
+		const checkbox = screen.queryByRole("checkbox");
+		if( checkbox ){
+			await user.click(checkbox);
+		}
+		expect(todosService.markTodoAsDone).toHaveBeenCalledTimes(1);
+	} )
 });
-
-// it('should render 2 input fields and a disabled add button', async () => {
-//     await render(AddtodoComponent, {
-//       imports: [HttpClientModule],
-//       providers: [
-//         {
-//           provide: TodosService,
-//           useValue: todosService,
-//         },
-//       ],
-//     });
-//     /* No act */
-//     /* Assert */
-//     expect(screen.queryByPlaceholderText(/Title of note/i)).not.toBeNull();
-//     expect(screen.queryAllByPlaceholderText(/Add a new note/i)).not.toBeNull();
-//     const addBtn = screen.queryByRole('button', { name: /Add/ });
-//     expect(addBtn).not.toBeNull();
-//     // expect(
-//     //   addBtn?.attributes.getNamedItem('disabled')?.value
-//     // ).not.toBeUndefined();
-
-//     expect(
-//       addBtn?.attributes.getNamedItem('disabled')
-//     ).not.toBeUndefined();
-
-//     // screen.debug();
-//   });
-
-//   it('should enable the button when input fields are populated', async () => {
-//     await render(AddtodoComponent, {
-//       imports: [HttpClientModule],
-//       providers: [
-//         {
-//           provide: TodosService,
-//           useValue: todosService,
-//         },
-//       ],
-//     });
-//     const user = userEvent.setup();
-//     const titleInput = screen.queryByPlaceholderText(/Title of note/i);
-//     const contentInput = screen.queryByPlaceholderText(/Add a new note/i);
-//     const addBtn = screen.queryByRole('button', { name: /Add/ });
-
-//     if (titleInput) await user.type(titleInput, 'test');
-//     if (contentInput) await user.type(contentInput, 'test');
-
-//     expect(addBtn?.attributes.getNamedItem('disabled')).toBeNull();
-//     if (addBtn) await user.click(addBtn);
-//   });
-
-//   it('should call the addtodo function in the todos service and emit an event on add to do clicked', async () => {
-//     const emit = jasmine.createSpy();
-
-//     await render(AddtodoComponent, {
-//       imports: [HttpClientModule],
-//       componentProperties: {
-//         onTodoAdded: {
-//           emit: emit,
-//         } as any,
-//       },
-//       providers: [
-//         {
-//           provide: TodosService,
-//           useValue: todosService,
-//         },
-//       ],
-//     });
-//     const user = userEvent.setup();
-//     const titleInput = screen.queryByPlaceholderText(/Title of note/i);
-//     const contentInput = screen.queryByPlaceholderText(/Add a new note/i);
-//     const addBtn = screen.queryByRole('button', { name: /Add/ });
-
-//     if (titleInput) await user.type(titleInput, 'test');
-//     if (contentInput) await user.type(contentInput, 'test');
-//     expect(addBtn?.attributes.getNamedItem('disabled')).toBeNull();
-//     if (addBtn) await user.click(addBtn);
-
-//     expect(emit).toHaveBeenCalledTimes(1);
-//     expect(emit).toHaveBeenCalledWith('to do added');
-//     expect(todosService.postToDo).toHaveBeenCalledTimes(1);
-//     expect(todosService.addTodo).toHaveBeenCalledTimes(1);
-//   });

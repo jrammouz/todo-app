@@ -12,7 +12,7 @@ describe('Click on a Todo Card', () => {
 		closeButton.should('not.exist');
 	});
 
-	it("Deletes a todo card when the trash icon is clicked", () => {
+	it("Deletes a todo card when the trash icon is clicked after clicking on a card", () => {
 		let div = cy.findAllByText(/30/i);
 		div.click();
 		let trash = div.get('#trash-icon');
