@@ -54,9 +54,8 @@ describe("TodoCardComponent", () => {
     const checkbox = screen.queryByRole("checkbox");
 
     if (checkbox) {
-      await user.click(checkbox); 
+      await user.click(checkbox);
     }
-
     expect(todosService.checkTodo).toHaveBeenCalledTimes(1);
   });
 });

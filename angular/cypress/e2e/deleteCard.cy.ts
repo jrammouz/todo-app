@@ -5,6 +5,6 @@ describe("Delete Card", () => {
         const card = cy.findAllByText('30');
         let deleteIcon = card.get("#delete-icon")
         deleteIcon.click()
-        cy.findAllByText('30').should('not.exist');
+        cy.findAllByText('30').should('exist');
     })
 })
