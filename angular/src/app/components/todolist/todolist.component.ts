@@ -62,6 +62,16 @@ export class TodoslistComponent {
     this.contentInput.nativeElement.innerText = todo.content;
   }
 
+  removeListItem(todoId?: string) {
+    if (!todoId) return;
+    this.todoservice.deleteTodo(todoId).subscribe(() => {
+      const updatedTodos = [...(this.todos || [])].filter(
+        (todo) => todo.id !== todoId
+      );
+      this.todoservice.setTodos(updatedTodos);
+    });
+  }
+
   closeModel() {
     this.showModel = false;
     this.selectedTodo = null;

@@ -18,6 +18,14 @@ export type TodoProp = {
 export type View = 'list' | 'grid';
 
 export const todos = signal<TodosProps[]>([]);
+
+export type deleteTodoResponse = {
+  completed : boolean;
+  deleteOn : string;
+  id:string;
+  isDeleted: boolean;
+  userId: string;
+}
 export type addTodosResponse = {
   id: string;
   todo: string;
@@ -110,11 +118,14 @@ export class TodosService {
   }
 
   deleteTodo = (id: string) => {
-    const updatedTodos = [...(this.todoSubject.value || [])].filter(
-      (todo) => todo.id !== id
-    );
-    this.setTodos(updatedTodos);
+    return this.http.delete(`https://dummyjson.com/todos/${id}`);
   };
+
+  markTodoAsComplete(id: string, checked : boolean): Observable<any> {
+    return this.http.put<addTodosResponse>('https://dummyjson.com/todos/' +id, {
+      completed : checked
+    });
+  }
 
   editTodos = (toDo: TodosProps) => {
     const updatedTodos = [...(this.todoSubject.value || [])].filter(

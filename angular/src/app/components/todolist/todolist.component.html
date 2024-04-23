@@ -1,19 +1,19 @@
 @if(searchParams){
 <div class="flex items-center justify-between mb-4">
-  <h2>
-    Showing result of :
-    <span class="text-primary font-bold cursor-pointer">
-      {{ searchParams }}
-    </span>
-  </h2>
-  <button (click)="resetFilter()" class="btn">Show all</button>
+<h2>
+Showing result of :
+<span class="text-primary font-bold cursor-pointer">
+{{ searchParams }}
+</span>
+</h2>
+<button (click)="resetFilter()" class="btn">Show all</button>
 </div>
 } @if (filteredTodos.length == 0) {
 <div class="p-3 text-center rounded-md font-bold text-xl py-4">
-  @if(searchParams){
-  <p>No todos found</p>
-  <button (click)="resetFilter()" class="btn mt-4">Clear Search</button>
-  }
+@if(searchParams){
+<p>No todos found</p>
+<button (click)="resetFilter()" class="btn mt-4">Clear Search</button>
+}
 </div>
 }
 
@@ -21,12 +21,13 @@
   @for (todo of (searchParams?filteredTodos:todos); track todo.id) {
   <div
     [ngClass]="{
-      'w-[99%] md:w-[45%] lg:w-[23%]': viewType == 'grid',
-      'w-full': viewType == 'list'
-    }"
+  'w-[99%] md:w-[45%] lg:w-[23%]': viewType == 'grid',
+  'w-full': viewType == 'list'
+  }"
   >
     <todo-card
-      [isSelcted]="todo.id == selectedTodo?.id"
+      [isSelected]="todo.id == selectedTodo?.id"
+      (removeCardFromList)="removeListItem($event)"
       (click)="openModel(todo)"
       [todo]="todo"
     ></todo-card>
@@ -38,7 +39,7 @@
   } }
 </div>
 
-<model-cmp [open]="showModel" (closeModal)="closeModel()">
+<model-cmp data-testid="iammodal" [open]="showModel" (closeModal)="closeModel()">
   @if(selectedTodo){
   <div
     class="relative rounded-lg flex flex-col justify-between flex-[3] min-w-80"
