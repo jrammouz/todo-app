@@ -14,15 +14,15 @@
       <p class="line-clamp-6 mb-6">{{ todo.content }}</p>
     </div>
     <div *ngIf="!showActionBtns"
-      data-testid="deleteBtn"
+      data-testid="delete-icon"
       (click)="showBtns($event)"
       class="flex items-center gap-4 absolute bottom-2 w-fit right-3"
     >
       <i class="fa-solid fa-trash text-red-600"></i>
     </div>
     <div *ngIf="showActionBtns" class="flex items-center justify-end gap-4 absolute bottom-2 w-fit right-3">
-      <button class="btn-ghost w-fit" (click)="cancelAction($event)">Close</button>
-      <button class="btn-fill danger w-fit" (click)="deleteTodo(todo.id, $event)"
+      <button data-testid="close-btn" class="btn-ghost w-fit" (click)="cancelAction($event)">Close</button>
+      <button data-testid="delete-btn" class="btn-fill danger w-fit" (click)="deleteTodo(todo.id, $event)"
       >Delete
       </button>
     </div>
