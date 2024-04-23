@@ -1,25 +1,26 @@
-@if(todo) {
+@if (todo) {
 
-<li
-  (click)="onClick($event)"
-  [class.opacity-0]="isSelected"
-  class="border relative p-3 rounded-lg cursor-pointer dark:border-brown hover:shadow-md dark:shadow-brown flex flex-col justify-start transition-all duration-200"
+  <li
+    (click)="onClick($event)"
+    [class.opacity-0]="isSelected"
+    class="border relative p-3 rounded-lg cursor-pointer dark:border-brown hover:shadow-md dark:shadow-brown flex flex-col justify-start transition-all duration-200"
 
->
-  <div style="display: flex;">
-    <ng-container>
-      <label>Done</label>
-      <input (click)="checkboxClicked($event)" type="checkbox">
-    </ng-container>
-    <p class="text-xl font-semibold mb-4">{{ todo.title }}</p>
-    <p class="line-clamp-6 mb-6">{{ todo.content }}</p>
-  </div>
-  <button
-    (click)="deleteTodo(todo.id)"
-    class="flex items-center gap-4 absolute bottom-2 w-fit right-3"
   >
-    <i class="fa-solid fa-trash text-red-600"></i>
-  </button>
-</li>
+    <div style="display: flex;">
+      <ng-container>
+        <label>Done</label>
+        <input (click)="checkboxClicked($event)" type="checkbox">
+      </ng-container>
+      <p class="text-xl font-semibold mb-4">{{ todo.title }}</p>
+      <p class="line-clamp-6 mb-6">{{ todo.content }}</p>
+    </div>
+    <button
+      aria-label='delete'
+      (click)="deleteTodo($event, todo.id)"
+      class="flex items-center gap-4 absolute bottom-2 w-fit right-3"
+    >
+      <i class="fa-solid fa-trash text-red-600"></i>
+    </button>
+  </li>
 
 }

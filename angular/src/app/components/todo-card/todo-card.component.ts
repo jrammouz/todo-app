@@ -20,7 +20,8 @@ export class TodoCardComponent {
   constructor(private todoService: TodosService) {
   }
 
-  deleteTodo(id: string) {
+  deleteTodo($event: any, id: string) {
+    $event.stopPropagation();
     this.removeListItem.emit(id);
   }
 
@@ -31,18 +32,18 @@ export class TodoCardComponent {
 
   checkboxClicked($event: any) {
     console.log("checkbox clicked", $event)
-    if(this.todo == undefined){
+    if (this.todo == undefined) {
       console.error("todo is undefined")
       return;
     }
     this.todoService.markTodoAsCompleted(this.todo?.id).subscribe({
-      next: (value)=>{
+      next: (value) => {
       },
       error: err => {
 
       },
-      complete: ()=>{
-        this.deleteTodo(this.todo?.id!);
+      complete: () => {
+        this.deleteTodo($event, this.todo?.id!);
       }
     });
     $event.stopPropagation();
