@@ -27,6 +27,7 @@ Showing result of :
   >
     <todo-card
       [isSelected]="todo.id == selectedTodo?.id"
+      (removeCardFromList)="removeListItem($event)"
       (click)="openModel(todo)"
       [todo]="todo"
     ></todo-card>

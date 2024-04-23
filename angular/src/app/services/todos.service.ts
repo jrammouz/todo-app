@@ -18,6 +18,14 @@ export type TodoProp = {
 export type View = 'list' | 'grid';
 
 export const todos = signal<TodosProps[]>([]);
+
+export type deleteTodoResponse = {
+  completed : boolean;
+  deleteOn : string;
+  id:string;
+  isDeleted: boolean;
+  userId: string;
+}
 export type addTodosResponse = {
   id: string;
   todo: string;

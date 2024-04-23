@@ -13,11 +13,12 @@ export class TodoCardComponent {
   @Input() todo: TodosProps | undefined;
   @Input() isSelected: boolean = false;
   @Output() click = new EventEmitter<void>();
+  @Output() removeCardFromList : EventEmitter<string> = new EventEmitter<string>();
   todosService = inject(TodosService);
 
   deleteTodo(id: string, event:any) {
     event.stopPropagation();
-    this.todosService.deleteTodo(id);
+    this.removeCardFromList.emit(id);
   }
 
   onCheckboxClick(event : any){
