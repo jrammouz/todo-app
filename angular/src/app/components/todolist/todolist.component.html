@@ -39,7 +39,7 @@ Showing result of :
   } }
 </div>
 
-<model-cmp [open]="showModel" (closeModal)="closeModel()">
+<model-cmp data-testid="iammodal" [open]="showModel" (closeModal)="closeModel()">
   @if(selectedTodo){
   <div
     class="relative rounded-lg flex flex-col justify-between flex-[3] min-w-80"

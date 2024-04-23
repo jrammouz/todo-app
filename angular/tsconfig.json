@@ -32,14 +32,14 @@
   },
 
   //TO RUN UNIT TESTS
-  "exclude": [
-    "./cypress.config.ts",
-    "node_modules",
-    "cypress",
-    "**/*.cy.tsx"
-  ],
+//  "exclude": [
+//    "./cypress.config.ts",
+//    "node_modules",
+//    "cypress",
+//    "**/*.cy.tsx"
+//  ],
 
   //TO RUN INTEGRATION AND E2E
-//  "exclude": ["**/*.spec.ts"]
+  "exclude": ["**/*.spec.ts"]
 
 }
