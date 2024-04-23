@@ -14,11 +14,26 @@ export class TodoCardComponent {
   @Input() isSelected: boolean = false;
   @Output() click = new EventEmitter<void>();
   @Output() removeCardFromList : EventEmitter<string> = new EventEmitter<string>();
+  showActionBtns : boolean = false;
   todosService = inject(TodosService);
 
-  deleteTodo(id: string, event:any) {
+  showBtns( event:any) {
     event.stopPropagation();
+    this.showActionBtns = true;
+  }
+
+  cancelAction(event : any){
+    event.stopPropagation();
+
+    this.showActionBtns = false;
+  }
+
+  deleteTodo(id:string, event : any){
+    event.stopPropagation();
+
+    this.showActionBtns = false;
     this.removeCardFromList.emit(id);
+
   }
 
   onCheckboxClick(event : any){

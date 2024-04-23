@@ -30,7 +30,7 @@ describe('TodoCardComponent', () => {
   )
 
 
-  it('should mark as complete when checkbox is checked', async () => {
+  it('should call markAsComplete when checkbox is checked', async () => {
     await render(TodoCardComponent, {
       providers:[{provide : TodosService, useValue : todosService}],
       componentInputs: {
@@ -48,8 +48,7 @@ describe('TodoCardComponent', () => {
     expect(todosService.markTodoAsComplete).toHaveBeenCalled();
   })
 
-  it('should emit on delete trash button click', async () => {
-
+  it('should fill checkBox', async () => {
     await render(TodoCardComponent, {
       providers:[{provide : TodosService, useValue : todosService}],
       componentInputs: {
@@ -60,16 +59,35 @@ describe('TodoCardComponent', () => {
         },
         isSelected : false
       },
-      componentOutputs:{
-        // removeCardFromList:{
-        //   emit:
-        // } as any
-      }
     })
 
-    const button = screen.getByTestId('deleteBtn') as HTMLInputElement;
-    fireEvent.click(button); // Check the checkbox
-    // expect().toHaveBeenCalled();
-  });
+    const checkbox = screen.getByTestId('my-checkbox') as HTMLInputElement;
+    fireEvent.click(checkbox); // Check the checkbox
+    expect(checkbox.checked).toBeTrue();
+  })
+
+  // it('should emit on delete trash button click', async () => {
+  //
+  //   await render(TodoCardComponent, {
+  //     providers:[{provide : TodosService, useValue : todosService}],
+  //     componentInputs: {
+  //       todo : {
+  //         id: '5',
+  //         title : 'make your bed',
+  //         content :'please make your bed'
+  //       },
+  //       isSelected : false
+  //     },
+  //     componentOutputs:{F
+  //       // removeCardFromList:{
+  //       //   emit:
+  //       // } as any
+  //     }
+  //   })
+  //
+  //   const button = screen.getByTestId('deleteBtn') as HTMLInputElement;
+  //   fireEvent.click(button); // Check the checkbox
+  //   // expect().toHaveBeenCalled();
+  // });
 
 })
