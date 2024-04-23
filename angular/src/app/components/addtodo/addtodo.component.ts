@@ -1,8 +1,7 @@
-import { CommonModule, NgIf } from '@angular/common';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TodosService } from '../../services/todos.service';
-import { Output, EventEmitter } from '@angular/core';
+import {CommonModule, NgIf} from '@angular/common';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {TodosService} from '../../services/todos.service';
 
 @Component({
   selector: 'app-addtodo',
@@ -13,8 +12,8 @@ import { Output, EventEmitter } from '@angular/core';
 export class AddtodoComponent {
   @Output() onTodoAdded = new EventEmitter();
 
-  title: string = '';
-  content: string = '';
+  title!: string;
+  content!: string;
   todoService = inject(TodosService);
 
   addToDo(): void {

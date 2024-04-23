@@ -1,9 +1,9 @@
-import { NgFor, CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { TodosProps, TodosService, View } from '../../services/todos.service';
-import { TodoCardComponent } from '../todo-card/todo-card.component';
-import { ModelComponent } from '../model/model.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {Component, ElementRef, inject, ViewChild} from '@angular/core';
+import {TodosProps, TodosService, View} from '../../services/todos.service';
+import {TodoCardComponent} from '../todo-card/todo-card.component';
+import {ModelComponent} from '../model/model.component';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-todoslist',
@@ -57,13 +57,13 @@ export class TodoslistComponent {
   }
 
   openModel(todo: TodosProps) {
-    console.log(todo);
     this.showModel = true;
     this.selectedTodo = todo;
     this.contentInput.nativeElement.innerText = todo.content;
   }
 
   removeListItem(todoId?: string) {
+
     if (!todoId) return;
     this.todoservice.deleteTodo(todoId).subscribe(() => {
       const updatedTodos = [...(this.todos || [])].filter(

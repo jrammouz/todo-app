@@ -35,15 +35,14 @@ export class TodoCardComponent {
       console.error("todo is undefined")
       return;
     }
-    this.todoService.markTodoAsCompleted(this.todo!.id!).subscribe({
+    this.todoService.markTodoAsCompleted(this.todo?.id).subscribe({
       next: (value)=>{
-
       },
       error: err => {
 
       },
       complete: ()=>{
-        this.deleteTodo(this.todo!.id!);
+        this.deleteTodo(this.todo?.id!);
       }
     });
     $event.stopPropagation();
